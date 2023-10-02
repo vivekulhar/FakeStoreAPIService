@@ -26,8 +26,8 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @GetMapping("/{productId}")
-    public String getSingleProduct(@PathVariable Long productId){
-        return "Returning Single Product with id: "+productId;
+    public ProductDto getSingleProduct(@PathVariable Long productId){
+        return productService.getSingleProduct(productId);
     }
     @PostMapping()
     public String addNewProduct(@RequestBody ProductDto productDto){

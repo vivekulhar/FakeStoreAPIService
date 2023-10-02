@@ -1,10 +1,11 @@
 package dev.vivek.productservicetutorial.services;
 
+import dev.vivek.productservicetutorial.dtos.CategoryDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public interface CategoryService {
-    String getAllCategories();
+    CategoryDto[] getAllCategories();
     String getProductsInCategory (Long categoryId);
 
 }

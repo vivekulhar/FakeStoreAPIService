@@ -17,8 +17,9 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }
 
     @Override
-    public String getSingleProduct(Long productId) {
-        return null;
+    public ProductDto getSingleProduct(Long productId) {
+
+        return restTemplate.getForObject("https://fakestoreapi.com/products/"+productId, ProductDto.class);
     }
 
     @Override

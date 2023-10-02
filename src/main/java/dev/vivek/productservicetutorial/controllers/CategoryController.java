@@ -1,5 +1,6 @@
 package dev.vivek.productservicetutorial.controllers;
 
+import dev.vivek.productservicetutorial.dtos.CategoryDto;
 import dev.vivek.productservicetutorial.services.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,9 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public String getAllCategories(){
-        return "Getting All Categories";
+    public CategoryDto[] getAllCategories(){
+
+        return categoryService.getAllCategories();
     }
     @GetMapping("/{categoryId}")
     public String getProductsInCategory(@PathVariable("categoryId") Long categoryId){
