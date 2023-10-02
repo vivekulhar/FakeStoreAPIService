@@ -23,8 +23,8 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }
 
     @Override
-    public String addNewProduct(ProductDto productDto) {
-        return null;
+    public ProductDto addNewProduct(ProductDto productDto) {
+        return restTemplate.postForObject("https://fakestoreapi.com/products", productDto, ProductDto.class);
     }
 
     @Override

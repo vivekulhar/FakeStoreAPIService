@@ -30,8 +30,8 @@ public class ProductController {
         return productService.getSingleProduct(productId);
     }
     @PostMapping()
-    public String addNewProduct(@RequestBody ProductDto productDto){
-        return "Adding New Product " + productDto;
+    public ProductDto addNewProduct(@RequestBody ProductDto productDto){
+        return productService.addNewProduct(productDto);
     }
     @PutMapping("/{productId}")
     public String updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){

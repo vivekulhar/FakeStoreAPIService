@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 public interface ProductService {
     ProductDto[] getAllProducts();
     ProductDto getSingleProduct(Long productId);
-    String addNewProduct(ProductDto productDto);
+    ProductDto addNewProduct(ProductDto productDto);
     String updateProduct(Long productId);
     String deleteProduct(Long productId);
 }
