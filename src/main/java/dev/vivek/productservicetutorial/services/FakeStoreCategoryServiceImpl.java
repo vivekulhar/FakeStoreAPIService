@@ -1,6 +1,7 @@
 package dev.vivek.productservicetutorial.services;
 
 import dev.vivek.productservicetutorial.dtos.CategoryDto;
+import dev.vivek.productservicetutorial.dtos.ProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +19,7 @@ public class FakeStoreCategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public String getProductsInCategory(Long categoryId) {
-        return null;
+    public ProductDto[] getProductsInCategory(String categoryName) {
+        return restTemplate.getForObject("https://fakestoreapi.com/products/category/"+categoryName, ProductDto[].class);
     }
 }
