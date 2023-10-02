@@ -34,8 +34,8 @@ public class ProductController {
         return productService.addNewProduct(productDto);
     }
     @PutMapping("/{productId}")
-    public String updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
-        return "Updating Product with id: "+productId + " with " + productDto;
+    public ProductDto updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+        return productService.updateProduct(productId, productDto);
     }
     @DeleteMapping("/{productId}")
     public String deleteProduct(@PathVariable Long productId){

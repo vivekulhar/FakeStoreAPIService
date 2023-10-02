@@ -2,6 +2,7 @@ package dev.vivek.productservicetutorial.services;
 
 import dev.vivek.productservicetutorial.dtos.ProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,8 +29,20 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }
 
     @Override
-    public String updateProduct(Long productId) {
-        return null;
+    public ProductDto updateProduct(Long productId, ProductDto productDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<ProductDto> requestEntity = new HttpEntity<>(productDto, headers);
+
+        ResponseEntity<ProductDto> responseEntity = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + productId,
+                HttpMethod.PUT,
+                requestEntity,
+                ProductDto.class
+        );
+
+        return responseEntity.getBody();
     }
 
     @Override

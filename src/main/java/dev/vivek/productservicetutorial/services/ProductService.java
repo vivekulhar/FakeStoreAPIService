@@ -7,6 +7,6 @@ public interface ProductService {
     ProductDto[] getAllProducts();
     ProductDto getSingleProduct(Long productId);
     ProductDto addNewProduct(ProductDto productDto);
-    String updateProduct(Long productId);
+    ProductDto updateProduct(Long productId, ProductDto productDto);
     String deleteProduct(Long productId);
 }
