@@ -46,7 +46,20 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }
 
     @Override
-    public String deleteProduct(Long productId) {
-        return null;
+    public ProductDto deleteProduct(Long productId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<ProductDto> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<ProductDto> responseEntity = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + productId,
+                HttpMethod.DELETE,
+                requestEntity,
+                ProductDto.class
+        );
+
+        return responseEntity.getBody();
     }
 }

@@ -8,5 +8,5 @@ public interface ProductService {
     ProductDto getSingleProduct(Long productId);
     ProductDto addNewProduct(ProductDto productDto);
     ProductDto updateProduct(Long productId, ProductDto productDto);
-    String deleteProduct(Long productId);
+    ProductDto deleteProduct(Long productId);
 }
