@@ -99,30 +99,12 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }
     @Override
     public Optional<Product> getSingleProduct(Long productId) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> response =  restTemplate.getForEntity("https://fakestoreapi.com/products/{id}",
-                FakeStoreProductDto.class, productId);
-//        if(response.getStatusCode().is2xxSuccessful()){
-//
-//        }else{
-//
-//        }
-        FakeStoreProductDto productDto = response.getBody();
-        if(productDto==null){
+        Optional<FakeStoreProductDto> fakeStoreProductDto= fakeStoreClient.getSingleProduct(productId);
+
+        if (fakeStoreProductDto.isEmpty()) {
             return Optional.empty();
         }
-        /*Product product = new Product();
-        product.setId(productDto.getId());
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        Category category = new Category();
-        category.setName(productDto.getCategory());
-        product.setCategory(category);
-        product.setImageUrl(productDto.getImage());
-        product.setDescription(productDto.getDescription());
-        product.setRating(productDto.getRating());*/
-
-        return Optional.of(convertFakeStoreProductDtoToProduct(productDto));
+        return Optional.of(convertFakeStoreProductDtoToProduct(fakeStoreProductDto.get()));
     }
 
     @Override

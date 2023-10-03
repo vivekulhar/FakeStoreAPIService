@@ -27,9 +27,17 @@ public class FakeStoreClient {
         );
         return List.of(l.getBody());
     }
-    Optional<FakeStoreProductDto> getSingleProduct(Long productId){
+    public Optional<FakeStoreProductDto> getSingleProduct(Long productId){
 
-        return null;
+        ResponseEntity<FakeStoreProductDto> response =  restTemplate.getForEntity("https://fakestoreapi.com/products/{id}",
+                FakeStoreProductDto.class, productId);
+
+        FakeStoreProductDto productDto = response.getBody();
+        if(productDto==null){
+            return Optional.empty();
+        }
+
+        return Optional.of(productDto);
     }
     FakeStoreProductDto addNewProduct(ProductDto product){
         return null;
