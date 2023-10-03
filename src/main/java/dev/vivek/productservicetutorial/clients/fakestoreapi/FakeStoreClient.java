@@ -39,8 +39,16 @@ public class FakeStoreClient {
 
         return Optional.of(productDto);
     }
-    FakeStoreProductDto addNewProduct(ProductDto product){
-        return null;
+    public FakeStoreProductDto addNewProduct(ProductDto product){
+
+        ResponseEntity<FakeStoreProductDto> response = restTemplate.postForEntity(
+                "https://fakestoreapi.com/products",
+                product,
+                FakeStoreProductDto.class
+        );
+        FakeStoreProductDto productDto = response.getBody();
+
+        return productDto;
     }
     FakeStoreProductDto updateProduct(Long productId, Product product){
         return null;
