@@ -90,8 +90,17 @@ public class FakeStoreClient {
 
         return fakeStoreProductDtoResponseEntity.getBody();
     }
-    FakeStoreProductDto replaceProduct(Long productId, Product product){
-        return null;
+    public FakeStoreProductDto replaceProduct(Long productId, Product product){
+        FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreProductDto(product);
+
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity= requestForEntity(
+                HttpMethod.PUT,
+                "https://fakestoreapi.com/products/{id}",
+                fakeStoreProductDto,
+                FakeStoreProductDto.class,
+                productId
+        );
+        return fakeStoreProductDtoResponseEntity.getBody();
     }
     FakeStoreProductDto deleteProduct(Long productId){
         return null;

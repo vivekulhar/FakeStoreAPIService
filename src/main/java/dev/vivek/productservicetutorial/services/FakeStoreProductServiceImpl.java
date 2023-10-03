@@ -127,9 +127,9 @@ public class FakeStoreProductServiceImpl implements ProductService{
     @Override
     public Product replaceProduct(Long productId, Product product) {
 
-        RestTemplate restTemplate = restTemplateBuilder.build();
+        FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.replaceProduct(productId, product);
 
-        return null;
+        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 
 

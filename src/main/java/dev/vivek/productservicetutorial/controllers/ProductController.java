@@ -69,8 +69,12 @@ public class ProductController {
     }
     @PatchMapping("/{productId}")
     public Product updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+        Product product = createProductFromProductDto(productDto);
+
+        return productService.updateProduct(productId, product);
+    }
+    public Product createProductFromProductDto(ProductDto productDto){
         Product product = new Product();
-        product.setId(productId);
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
         product.setDescription(productDto.getDescription());
@@ -82,8 +86,13 @@ public class ProductController {
         }
         product.getCategory().setName(productDto.getCategory());
         product.setRating(productDto.getRating());
+        return product;
+    }
+    @PutMapping("/{productId}")
+    public Product replaceProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+        Product product = createProductFromProductDto(productDto);
 
-        return productService.updateProduct(productId, product);
+        return productService.replaceProduct(productId, product);
     }
     @DeleteMapping("/{productId}")
     public boolean deleteProduct(@PathVariable Long productId){
