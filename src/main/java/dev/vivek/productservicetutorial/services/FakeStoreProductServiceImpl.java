@@ -71,11 +71,11 @@ public class FakeStoreProductServiceImpl implements ProductService{
         List<Product> answer = new ArrayList<>();
         for(FakeStoreProductDto productDto: fakeStoreProductDtos){
 
-            answer.add(convertFakeStoreProductDtoToProduct(productDto));
+            answer.add(ProductConverter.convertFakeStoreProductDtoToProduct(productDto));
         }
         return answer;
     }
-    private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto productDto){
+    /*private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto productDto){
         Product product = new Product();
         product.setId(productDto.getId());
         product.setTitle(productDto.getTitle());
@@ -87,8 +87,8 @@ public class FakeStoreProductServiceImpl implements ProductService{
         product.setDescription(productDto.getDescription());
         product.setRating(productDto.getRating());
         return product;
-    }
-    private FakeStoreProductDto convertProductToFakeStoreProductDto(Product product){
+    }*/
+    /*private FakeStoreProductDto convertProductToFakeStoreProductDto(Product product){
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
         fakeStoreProductDto.setId(product.getId());
         fakeStoreProductDto.setTitle(product.getTitle());
@@ -98,7 +98,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         fakeStoreProductDto.setDescription(product.getDescription());
         fakeStoreProductDto.setRating(product.getRating());
         return fakeStoreProductDto;
-    }
+    }*/
     @Override
     public Optional<Product> getSingleProduct(Long productId) {
         Optional<FakeStoreProductDto> fakeStoreProductDto= fakeStoreClient.getSingleProduct(productId);
@@ -106,13 +106,13 @@ public class FakeStoreProductServiceImpl implements ProductService{
         if (fakeStoreProductDto.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(convertFakeStoreProductDtoToProduct(fakeStoreProductDto.get()));
+        return Optional.of(ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto.get()));
     }
 
     @Override
     public Product addNewProduct(ProductDto product) {
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.addNewProduct(product);
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         FakeStoreProductDto fakeStoreProductDto =  fakeStoreClient.updateProduct(productId, product);
 
 
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 
     @Override
@@ -129,13 +129,13 @@ public class FakeStoreProductServiceImpl implements ProductService{
 
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.replaceProduct(productId, product);
 
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 
 
     @Override
     public Product deleteProduct(Long productId) {
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.deleteProduct(productId);
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 }

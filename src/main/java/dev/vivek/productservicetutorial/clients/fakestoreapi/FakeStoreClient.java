@@ -3,6 +3,7 @@ package dev.vivek.productservicetutorial.clients.fakestoreapi;
 import dev.vivek.productservicetutorial.dtos.FakeStoreCategoryDto;
 import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.models.Product;
+import dev.vivek.productservicetutorial.services.ProductConverter;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -67,19 +68,9 @@ public class FakeStoreClient {
 
         return productDto;
     }
-    private FakeStoreProductDto convertProductToFakeStoreProductDto(Product product){
-        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
-        fakeStoreProductDto.setId(product.getId());
-        fakeStoreProductDto.setTitle(product.getTitle());
-        fakeStoreProductDto.setPrice(product.getPrice());
-        fakeStoreProductDto.setCategory(product.getCategory().getName());
-        fakeStoreProductDto.setImage(product.getImageUrl());
-        fakeStoreProductDto.setDescription(product.getDescription());
-        fakeStoreProductDto.setRating(product.getRating());
-        return fakeStoreProductDto;
-    }
+
     public FakeStoreProductDto updateProduct(Long productId, Product product){
-        FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreProductDto(product);
+        FakeStoreProductDto fakeStoreProductDto = ProductConverter.convertProductToFakeStoreProductDto(product);
 
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity= requestForEntity(
                 HttpMethod.PATCH,
@@ -92,7 +83,7 @@ public class FakeStoreClient {
         return fakeStoreProductDtoResponseEntity.getBody();
     }
     public FakeStoreProductDto replaceProduct(Long productId, Product product){
-        FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreProductDto(product);
+        FakeStoreProductDto fakeStoreProductDto = ProductConverter.convertProductToFakeStoreProductDto(product);
 
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity= requestForEntity(
                 HttpMethod.PUT,
@@ -121,4 +112,16 @@ public class FakeStoreClient {
         );
         return List.of(l.getBody());
     }
+    public List<FakeStoreProductDto> getProductsInCategory(String categoryName) {
+        ResponseEntity<FakeStoreProductDto[]> l = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products/category/{categoryName}",
+                FakeStoreProductDto[].class,
+                categoryName
+        );
+        List<FakeStoreProductDto> fakeStoreProductDtos = List.of(l.getBody());
+
+        return fakeStoreProductDtos;
+    }
+
+
 }
