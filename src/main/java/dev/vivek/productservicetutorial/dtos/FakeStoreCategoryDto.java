@@ -10,13 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class CategoryDto {
-
+public class FakeStoreCategoryDto {
     private String name;
-    private String description;
-    private List<Product> products;
-    public CategoryDto(String name) {
-        this.name = name;
-    }
-    // Getters and setters
 }

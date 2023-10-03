@@ -1,5 +1,6 @@
 package dev.vivek.productservicetutorial.clients.fakestoreapi;
 
+import dev.vivek.productservicetutorial.dtos.FakeStoreCategoryDto;
 import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -111,5 +112,13 @@ public class FakeStoreClient {
                 productId
         );
         return fakeStoreProductDtoResponseEntity.getBody();
+    }
+
+    public List<String> getAllCategories(){
+        ResponseEntity<String[]> l = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products/categories",
+                String[].class
+        );
+        return List.of(l.getBody());
     }
 }
