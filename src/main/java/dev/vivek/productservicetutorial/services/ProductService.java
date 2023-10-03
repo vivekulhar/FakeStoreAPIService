@@ -1,12 +1,17 @@
 package dev.vivek.productservicetutorial.services;
 
 import dev.vivek.productservicetutorial.dtos.ProductDto;
+import dev.vivek.productservicetutorial.models.Product;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface ProductService {
-    ProductDto[] getAllProducts();
-    ProductDto getSingleProduct(Long productId);
-    ProductDto addNewProduct(ProductDto productDto);
-    ProductDto updateProduct(Long productId, ProductDto productDto);
-    ProductDto deleteProduct(Long productId);
+    List<Product> getAllProducts();
+    Optional<Product> getSingleProduct(Long productId);
+    Product addNewProduct(ProductDto product);
+    Product updateProduct(Long productId, Product product);
+    Product replaceProduct(Long productId, Product product);
+    boolean deleteProduct(Long productId);
 }

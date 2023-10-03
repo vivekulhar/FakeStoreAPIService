@@ -1,0 +1,15 @@
+package dev.vivek.productservicetutorial.dtos;
+
+import dev.vivek.productservicetutorial.models.Product;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class GetSingleProductResponseDto {
+    private Product product;
+}
