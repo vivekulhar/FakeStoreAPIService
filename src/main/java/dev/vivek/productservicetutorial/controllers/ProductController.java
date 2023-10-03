@@ -95,7 +95,7 @@ public class ProductController {
         return productService.replaceProduct(productId, product);
     }
     @DeleteMapping("/{productId}")
-    public boolean deleteProduct(@PathVariable Long productId){
+    public Product deleteProduct(@PathVariable Long productId){
         return productService.deleteProduct(productId);
     }
 

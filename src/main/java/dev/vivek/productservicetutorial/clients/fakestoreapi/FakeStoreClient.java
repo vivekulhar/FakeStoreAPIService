@@ -102,7 +102,14 @@ public class FakeStoreClient {
         );
         return fakeStoreProductDtoResponseEntity.getBody();
     }
-    FakeStoreProductDto deleteProduct(Long productId){
-        return null;
+    public FakeStoreProductDto deleteProduct(Long productId){
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity= requestForEntity(
+                HttpMethod.DELETE,
+                "https://fakestoreapi.com/products/{id}",
+                null,
+                FakeStoreProductDto.class,
+                productId
+        );
+        return fakeStoreProductDtoResponseEntity.getBody();
     }
 }
