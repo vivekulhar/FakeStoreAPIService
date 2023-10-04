@@ -1,6 +1,7 @@
 package dev.vivek.productservicetutorial.clients.fakestoreapi;
 
-import dev.vivek.productservicetutorial.dtos.Rating;
+
+import dev.vivek.productservicetutorial.dtos.RatingDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,5 +16,5 @@ public class FakeStoreProductDto {
     private String description;
     private String image;
     private String category;
-    private Rating rating;
+    private RatingDto rating;
 }

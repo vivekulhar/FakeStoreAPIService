@@ -4,6 +4,7 @@ import dev.vivek.productservicetutorial.dtos.*;
 import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
+import dev.vivek.productservicetutorial.repositories.ProductRepository;
 import dev.vivek.productservicetutorial.services.ProductService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,10 @@ import java.util.Optional;
 public class ProductController {
 
     private ProductService productService;
-
-    public ProductController(ProductService productService){
+    private ProductRepository productRepository;
+    public ProductController(ProductService productService, ProductRepository productRepository){
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
 
@@ -62,9 +64,19 @@ public class ProductController {
         return response;
     }
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto product){
-        Product newProduct = productService.addNewProduct(product);
-        ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
+    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productDto){
+//        Product newProduct = productService.addNewProduct(product);
+//        ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
+        Product product = new Product();
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        product.setDescription(productDto.getDescription());
+        product.setImageUrl(productDto.getImage());
+        /*Category category = new Category();
+        category.setName(productDto.getCategory());
+        product.setCategory(category);*/
+        product =productRepository.save(product);
+        ResponseEntity<Product> response = new ResponseEntity<>(product, HttpStatus.OK);
         return response;
     }
     @PatchMapping("/{productId}")
@@ -85,7 +97,7 @@ public class ProductController {
             product.setCategory(category);
         }
         product.getCategory().setName(productDto.getCategory());
-        product.setRating(productDto.getRating());
+        //product.setRating(productDto.getRating());
         return product;
     }
     @PutMapping("/{productId}")

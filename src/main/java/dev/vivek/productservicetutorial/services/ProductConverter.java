@@ -17,7 +17,7 @@ public class ProductConverter {
 
         product.setImageUrl(productDto.getImage());
         product.setDescription(productDto.getDescription());
-        product.setRating(productDto.getRating());
+        //product.setRating(productDto.getRating());
 
         return product;
     }
@@ -30,7 +30,7 @@ public class ProductConverter {
         fakeStoreProductDto.setCategory(product.getCategory().getName());
         fakeStoreProductDto.setImage(product.getImageUrl());
         fakeStoreProductDto.setDescription(product.getDescription());
-        fakeStoreProductDto.setRating(product.getRating());
+        //fakeStoreProductDto.setRating(product.getRating());
 
         return fakeStoreProductDto;
     }
