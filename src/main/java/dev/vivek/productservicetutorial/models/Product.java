@@ -24,4 +24,5 @@ public class Product extends BaseModel{
     private String imageUrl;
 
     //private RatingDto rating;
+    private boolean isPublic;
 }
