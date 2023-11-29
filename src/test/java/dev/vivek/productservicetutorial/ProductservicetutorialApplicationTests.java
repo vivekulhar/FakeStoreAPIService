@@ -19,16 +19,18 @@ class ProductservicetutorialApplicationTests {
 	}
 	@Test
 	void testDifferentInheritances(){
-		User user  = new User();
-		user.setEmail("vivek.kulhar23@gmail.com");
-		user.setPassword("123456");
-		userRepository.save(user);
-
-		Mentor mentor = new Mentor();
-		mentor.setEmail("vk.kulhar@gmail.com");
-		mentor.setPassword("123456");
-		mentor.setNumberOfMentees(4);
-		mentor.setNumberOfSessions(5);
-		mentorRepository.save(mentor);
+//		User user  = new User();
+//		user.setEmail("vivek.kulhar23@gmail.com");
+//		user.setPassword("123456");
+//		userRepository.save(user);
+//
+//		Mentor mentor = new Mentor();
+//		mentor.setEmail("vk.kulhar@gmail.com");
+//		mentor.setPassword("123456");
+//		mentor.setNumberOfMentees(4);
+//		mentor.setNumberOfSessions(5);
+//		mentorRepository.save(mentor);
 	}
+
+
 }

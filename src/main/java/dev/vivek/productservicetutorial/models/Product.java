@@ -2,6 +2,7 @@ package dev.vivek.productservicetutorial.models;
 
 
 import dev.vivek.productservicetutorial.dtos.RatingDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class Product extends BaseModel{
     private String title;
     private Double price;
     private String description;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Category category;
     private String imageUrl;
 
