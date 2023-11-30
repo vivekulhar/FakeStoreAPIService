@@ -23,23 +23,28 @@ public class FakeStoreCategoryServiceImpl implements CategoryService{
         this.fakeStoreClient = fakeStoreClient;
     }
     @Override
-    public List<String> getAllCategories() {
-        List<String> fakeStoreCategoryDto = fakeStoreClient.getAllCategories();
+    public List<CategoryDto> getAllCategories() {
+        List<Category> fakeStoreCategoryDto = fakeStoreClient.getAllCategories();
 
-
-        return fakeStoreCategoryDto;
+        List<CategoryDto> categoryDtos = new ArrayList<>();
+        for(Category category: fakeStoreCategoryDto){
+            categoryDtos.add(CategoryConverter.toCategoryDto
+                    (category));
+        }
+        return categoryDtos;
 
     }
 
 
     @Override
-    public List<Product> getProductsInCategory(String categoryName) {
+    public List<ProductDto> getProductsInCategory(String categoryName) {
         List<FakeStoreProductDto> fakeStoreProductDtos = fakeStoreClient.getProductsInCategory(categoryName);
         List<Product> products = new ArrayList<>();
         for(FakeStoreProductDto productDto: fakeStoreProductDtos){
             products.add(ProductConverter.convertFakeStoreProductDtoToProduct(productDto));
         }
-        return products;
+        List<ProductDto> productDtos = new ArrayList<>();
+        return productDtos;
     }
     /*private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto productDto){
         Product product = new Product();

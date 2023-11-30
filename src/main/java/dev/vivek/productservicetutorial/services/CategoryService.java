@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 public interface CategoryService {
-    List<String> getAllCategories();
-    List<Product> getProductsInCategory (String categoryName);
+    List<CategoryDto> getAllCategories();
+    List<ProductDto> getProductsInCategory (String categoryName);
 
 }

@@ -15,8 +15,8 @@ public class CategoryDto {
     private String name;
     private String description;
     private List<Product> products;
-    public CategoryDto(String name) {
+    /*public CategoryDto(String name) {
         this.name = name;
-    }
+    }*/
     // Getters and setters
 }

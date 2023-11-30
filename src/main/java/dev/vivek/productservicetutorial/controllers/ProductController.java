@@ -5,7 +5,9 @@ import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.repositories.ProductRepository;
+import dev.vivek.productservicetutorial.services.ProductConverter;
 import dev.vivek.productservicetutorial.services.ProductService;
+import dev.vivek.productservicetutorial.services.SelfProductService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/products")
@@ -25,16 +24,20 @@ public class ProductController {
 
     private ProductService productService;
     private ProductRepository productRepository;
-    public ProductController(ProductService productService, ProductRepository productRepository){
+    public ProductController(SelfProductService productService, ProductRepository productRepository){
         this.productService = productService;
         this.productRepository = productRepository;
     }
 
 
     @GetMapping()
-    public List<Product> getAllProducts(){
-
-        return productService.getAllProducts();
+    public List<ProductDto> getAllProducts(){
+        List<ProductDto> productDtos = new ArrayList<>();
+        List<Product> products = productService.getAllProducts();
+        for(Product product: products){
+            productDtos.add(ProductConverter.toProductDto(product));
+        }
+        return productDtos;
     }
     /*@GetMapping("/{productId}")
     public GetSingleProductResponseDto getSingleProduct(@PathVariable Long productId){
@@ -44,7 +47,7 @@ public class ProductController {
         return responseDto;
     }*/
     @GetMapping("/{productId}")
-    public ResponseEntity<Product> getSingleProduct(@PathVariable Long productId) throws NotFoundException{
+    public ResponseEntity<ProductDto> getSingleProduct(@PathVariable Long productId) throws NotFoundException{
 
 
         MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
@@ -56,59 +59,60 @@ public class ProductController {
             throw new NotFoundException("No product with product id:"+productId+" found");
 
         }
-        ResponseEntity<Product> response =new ResponseEntity(
-                productService.getSingleProduct(productId),
+        ProductDto productDto = ProductConverter.toProductDto(productOptional.get());
+        ResponseEntity<ProductDto> response =new ResponseEntity(
+                productDto,
                 headers,
                 HttpStatus.NOT_FOUND);
 
         return response;
     }
-    @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productDto){
+    @PostMapping("/addProduct")
+    public ResponseEntity<ProductDto> addNewProduct(@RequestBody ProductDto productDto){
 //        Product newProduct = productService.addNewProduct(product);
 //        ResponseEntity<Product> response = new ResponseEntity<>(newProduct, HttpStatus.OK);
-        Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        product.setDescription(productDto.getDescription());
-        product.setImageUrl(productDto.getImage());
-        /*Category category = new Category();
-        category.setName(productDto.getCategory());
-        product.setCategory(category);*/
-        product =productRepository.save(product);
-        ResponseEntity<Product> response = new ResponseEntity<>(product, HttpStatus.OK);
+
+        Product product = productService.addNewProduct(productDto);
+        ProductDto productDto1 = ProductConverter.toProductDto(product);
+        ResponseEntity<ProductDto> response = new ResponseEntity<>(productDto1, HttpStatus.OK);
         return response;
     }
     @PatchMapping("/{productId}")
-    public Product updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
-        Product product = createProductFromProductDto(productDto);
+    public ProductDto updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+        Product product = ProductConverter.toProduct(productDto);
 
-        return productService.updateProduct(productId, product);
+        product = productService.updateProduct(productId, product);
+        ProductDto productDto1 = ProductConverter.toProductDto(product);
+        return productDto1;
     }
-    public Product createProductFromProductDto(ProductDto productDto){
+    /*public Product createProductFromProductDto(ProductDto productDto){
         Product product = new Product();
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
         product.setDescription(productDto.getDescription());
-        product.setImageUrl(productDto.getImage());
+        product.setImageUrl(productDto.getImageUrl());
         Category category = product.getCategory();
         if (category == null) {
             category = new Category();
             product.setCategory(category);
         }
-        product.getCategory().setName(productDto.getCategory());
+        product.setCategory((productDto.getCategory()));
         //product.setRating(productDto.getRating());
         return product;
-    }
+    }*/
     @PutMapping("/{productId}")
-    public Product replaceProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
-        Product product = createProductFromProductDto(productDto);
+    public ProductDto replaceProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+        Product product = ProductConverter.toProduct(productDto);
 
-        return productService.replaceProduct(productId, product);
+        product = productService.replaceProduct(productId, product);
+        ProductDto productDto1 = ProductConverter.toProductDto(product);
+        return productDto1;
     }
     @DeleteMapping("/{productId}")
-    public Product deleteProduct(@PathVariable Long productId){
+    public Integer deleteProduct(@PathVariable Long productId){
+
         return productService.deleteProduct(productId);
+
     }
 
     /*@ExceptionHandler(NotFoundException.class)

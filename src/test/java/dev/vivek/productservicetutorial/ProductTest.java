@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class ProductTest {
@@ -46,11 +47,11 @@ public class ProductTest {
     @Test
     @Transactional
     void fetchTypesTest() {
-        Product product = productRepository.findProductById(1L);
+        Optional<Product> product = productRepository.findProductById(1L);
 
         System.out.println("Fetched product");
 
-        Category category = product.getCategory();
+        Category category = product.get().getCategory();
         String name = category.getName();
     }
 

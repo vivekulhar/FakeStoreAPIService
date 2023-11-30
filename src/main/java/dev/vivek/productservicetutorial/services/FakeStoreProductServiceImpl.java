@@ -134,9 +134,9 @@ public class FakeStoreProductServiceImpl implements ProductService{
 
 
     @Override
-    public Product deleteProduct(Long productId) {
+    public Integer deleteProduct(Long productId) {
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.deleteProduct(productId);
-        return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return fakeStoreProductDto.getId().intValue();
     }
 
     @Override

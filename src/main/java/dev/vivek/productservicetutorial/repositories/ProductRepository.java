@@ -4,11 +4,13 @@ import dev.vivek.productservicetutorial.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 //    Product save(Product product);
     List<Product> findAllByIdIn(List<Long> id);
-    Product findProductById(Long id);
+    Optional<Product> findProductById(Long id);
+    Integer deleteProductById(Long id);
 
     Product findProductByIdIs(Long id);
 

@@ -5,10 +5,9 @@ import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.services.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import dev.vivek.productservicetutorial.services.SelfCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,21 +16,20 @@ import java.util.List;
 public class CategoryController {
 
     private CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService){
+    @Autowired
+    public CategoryController(SelfCategoryService categoryService){
         this.categoryService = categoryService;
     }
 
     @GetMapping()
-    public List<String> getAllCategories(){
+    public List<CategoryDto> getAllCategories(){
 
         return categoryService.getAllCategories();
     }
     @GetMapping("/{categoryName}")
-    public List<Product> getProductsInCategory(@PathVariable("categoryName") String categoryName){
+    public List<ProductDto> getProductsInCategory(@PathVariable("categoryName") String categoryName){
         return categoryService.getProductsInCategory(categoryName);
     }
-
 
 }
 /*
