@@ -44,4 +44,8 @@ public class SelfProductService implements ProductService{
     public Product deleteProduct(Long productId) {
         return null;
     }
+    @Override
+    public Product save(Product product){
+        return productRepository.save(product);
+    }
 }

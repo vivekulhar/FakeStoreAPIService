@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product save(Product product);
+//    Product save(Product product);
+    List<Product> findAllByIdIn(List<Long> id);
     Product findProductById(Long id);
 
     Product findProductByIdIs(Long id);
@@ -37,8 +38,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // productRepository.findByImageUrlIsNull()
     // select * from products where image_url is null;
 
-    List<Product> findAllByPublicIs(boolean value);
-    List<Product> findAllByPublicIsTrue();
+    List<Product> findAllByIsPublic(boolean value);
+    List<Product> findAllByIsPublicTrue();
 
     // productRepository.findAllByPublicIs(true);
     // productRepository.findAllByPublicIsTrue()

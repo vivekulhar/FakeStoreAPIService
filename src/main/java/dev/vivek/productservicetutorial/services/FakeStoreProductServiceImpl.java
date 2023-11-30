@@ -138,4 +138,9 @@ public class FakeStoreProductServiceImpl implements ProductService{
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.deleteProduct(productId);
         return ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
+
+    @Override
+    public Product save(Product product) {
+        return null;
+    }
 }

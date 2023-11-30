@@ -66,13 +66,19 @@ public class ProductTest {
 //    @Rollback(value = false)
     @Commit()
     void saveProductsForCategory() {
+        Category category1 = new Category();
+        category1.setName("phones");
+        categoryRepository.save(category1);
+        Category category2 = new Category();
+        category2.setName("electronics");
+        categoryRepository.save(category2);
         Category category = categoryRepository.findById(2L).get();
 
 
         Product product = new Product();
         product.setPrice(1012.0);
         product.setImageUrl("hiii");
-        product.setCategory(category);
+        product.setCategory(category2);
         Product savedProduct = productRepository.save(product);
 
         product = new Product();
@@ -81,9 +87,9 @@ public class ProductTest {
         product.setCategory(category);
         productRepository.save(product);
 
-        Category category1 = new Category();
-        category.setName("hello");
-        categoryRepository.save(category1);
+        Category category3 = new Category();
+        category3.setName("hello");
+        categoryRepository.save(category3);
 
     }
 
