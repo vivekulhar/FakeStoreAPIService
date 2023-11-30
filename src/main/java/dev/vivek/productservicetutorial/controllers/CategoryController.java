@@ -7,6 +7,7 @@ import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.services.CategoryService;
 import dev.vivek.productservicetutorial.services.SelfCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CategoryController {
 
     private CategoryService categoryService;
     @Autowired
-    public CategoryController(SelfCategoryService categoryService){
+    public CategoryController(@Qualifier("selfCategoryService") CategoryService categoryService){
         this.categoryService = categoryService;
     }
 

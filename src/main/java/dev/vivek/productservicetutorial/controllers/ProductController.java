@@ -8,6 +8,8 @@ import dev.vivek.productservicetutorial.repositories.ProductRepository;
 import dev.vivek.productservicetutorial.services.ProductConverter;
 import dev.vivek.productservicetutorial.services.ProductService;
 import dev.vivek.productservicetutorial.services.SelfProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,8 @@ public class ProductController {
 
     private ProductService productService;
     private ProductRepository productRepository;
-    public ProductController(SelfProductService productService, ProductRepository productRepository){
+
+    public ProductController(@Qualifier("selfProductService") ProductService productService, ProductRepository productRepository){
         this.productService = productService;
         this.productRepository = productRepository;
     }
