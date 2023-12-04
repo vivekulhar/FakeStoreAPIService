@@ -8,6 +8,9 @@ import dev.vivek.productservicetutorial.services.CategoryService;
 import dev.vivek.productservicetutorial.services.SelfCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +20,23 @@ import java.util.List;
 public class CategoryController {
 
     private CategoryService categoryService;
+    @Value("${hello.message}")
+    private String helloWorld;
     @Autowired
     public CategoryController(@Qualifier("selfCategoryService") CategoryService categoryService){
         this.categoryService = categoryService;
     }
 
     @GetMapping()
-    public List<CategoryDto> getAllCategories(){
+    public ResponseEntity<List<CategoryDto>> getAllCategories(){
 
-        return categoryService.getAllCategories();
+        List<CategoryDto> categoryDtos = categoryService.getAllCategories();
+        return new ResponseEntity<>(categoryDtos, HttpStatus.OK);
     }
     @GetMapping("/{categoryName}")
-    public List<ProductDto> getProductsInCategory(@PathVariable("categoryName") String categoryName){
-        return categoryService.getProductsInCategory(categoryName);
+    public ResponseEntity<List<ProductDto>> getProductsInCategory(@PathVariable("categoryName") String categoryName){
+        List<ProductDto> productDtos = categoryService.getProductsInCategory(categoryName);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }
 
 }

@@ -99,8 +99,12 @@ public class ProductTest {
     void getProductsForCategory() throws InterruptedException {
 //        Category category = categoryRepository.findById(2L).get();
 
-        List<Category> categories = categoryRepository.findAllByIdIn(List.of(2L, 52L)); // select * from categories where cateory in 1, 2
+        Optional<List<Category>> categories = categoryRepository.findAllByIdIn(List.of(2L, 52L)); // select * from categories where cateory in 1, 2
 
+        if(categories.isEmpty()) {
+            System.out.println("No categories found");
+            return;
+        }
         // select * from categories where id in (2, 52);
         Thread.sleep(100L);
         System.out.println("Doing something");
@@ -108,7 +112,7 @@ public class ProductTest {
         // select * from products where category_id = 2;
         // select * from products where category_id = 52;
 
-        for (Category category: categories) {
+        for (Category category: categories.get()) {
             for (Product product : category.getProducts()) {
                 System.out.println(product.getPrice());
             }

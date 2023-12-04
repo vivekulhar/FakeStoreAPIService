@@ -1,5 +1,6 @@
 package dev.vivek.productservicetutorial.dtos;
 
+import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,15 @@ public class CategoryDto {
         this.name = name;
     }*/
     // Getters and setters
+    public static Category from(CategoryDto categoryDto){
+        Category category = new Category();
+        category.setName(categoryDto.getName());
+        return category;
+    }
+
+    public static CategoryDto to(Category category) {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setName(category.getName());
+        return categoryDto;
+    }
 }

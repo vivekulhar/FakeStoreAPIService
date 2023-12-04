@@ -1,5 +1,9 @@
 package dev.vivek.productservicetutorial.controllers;
 
+import dev.vivek.productservicetutorial.clients.authenticationclient.AuthenticationClient;
+import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.Role;
+import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.SessionStatus;
+import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.ValidateTokenResponseDto;
 import dev.vivek.productservicetutorial.dtos.*;
 import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Category;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -26,21 +31,52 @@ public class ProductController {
 
     private ProductService productService;
     private ProductRepository productRepository;
-
-    public ProductController(@Qualifier("selfProductService") ProductService productService, ProductRepository productRepository){
+    private AuthenticationClient authenticationClient;
+    public ProductController(@Qualifier("selfProductService") ProductService productService,
+                             ProductRepository productRepository,
+                             AuthenticationClient authenticationClient){
         this.productService = productService;
         this.productRepository = productRepository;
+        this.authenticationClient = authenticationClient;
     }
 
-
+    // Make only admins to be able to access this endpoint
     @GetMapping()
-    public List<ProductDto> getAllProducts(){
+    public ResponseEntity<List<ProductDto>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
+                                                           @Nullable @RequestHeader("USER_ID") Long userId){
+        // check if token and userId are present
+        if(token==null || userId==null ){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        // validate the token
+        ValidateTokenResponseDto response = authenticationClient.validate(token, userId);
+
+        // check if token is valid
+        if (response.getSessionStatus().equals(SessionStatus.INVALID)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // validate token
+        // RestTemplate rt = new RestTemplate();
+        //  rt.get("localhost:9090/auth/validate?)
+
+        // check if user has permissions
+        boolean isUserAdmin = false;
+        for (Role role: response.getUserDto().getRoles()) {
+            if (role.getName().equals("ADMIN")) {
+                isUserAdmin = true;
+            }
+        }
+
+        if (!isUserAdmin) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         List<ProductDto> productDtos = new ArrayList<>();
         List<Product> products = productService.getAllProducts();
         for(Product product: products){
             productDtos.add(ProductConverter.toProductDto(product));
         }
-        return productDtos;
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }
     /*@GetMapping("/{productId}")
     public GetSingleProductResponseDto getSingleProduct(@PathVariable Long productId){
@@ -66,7 +102,7 @@ public class ProductController {
         ResponseEntity<ProductDto> response =new ResponseEntity(
                 productDto,
                 headers,
-                HttpStatus.NOT_FOUND);
+                HttpStatus.OK);
 
         return response;
     }
@@ -81,35 +117,21 @@ public class ProductController {
         return response;
     }
     @PatchMapping("/{productId}")
-    public ProductDto updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
         Product product = ProductConverter.toProduct(productDto);
 
         product = productService.updateProduct(productId, product);
         ProductDto productDto1 = ProductConverter.toProductDto(product);
-        return productDto1;
+        return new ResponseEntity<>(productDto1, HttpStatus.OK);
     }
-    /*public Product createProductFromProductDto(ProductDto productDto){
-        Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        product.setDescription(productDto.getDescription());
-        product.setImageUrl(productDto.getImageUrl());
-        Category category = product.getCategory();
-        if (category == null) {
-            category = new Category();
-            product.setCategory(category);
-        }
-        product.setCategory((productDto.getCategory()));
-        //product.setRating(productDto.getRating());
-        return product;
-    }*/
+
     @PutMapping("/{productId}")
-    public ProductDto replaceProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> replaceProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
         Product product = ProductConverter.toProduct(productDto);
 
         product = productService.replaceProduct(productId, product);
         ProductDto productDto1 = ProductConverter.toProductDto(product);
-        return productDto1;
+        return new ResponseEntity<>(productDto1, HttpStatus.OK);
     }
     @DeleteMapping("/{productId}")
     public Integer deleteProduct(@PathVariable Long productId){
@@ -118,35 +140,6 @@ public class ProductController {
 
     }
 
-    /*@ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleNotFoundException(Exception exception){
-        ErrorResponseDto errorResponseDto = new ErrorResponseDto();
-        errorResponseDto.setErrorMessage(exception.getMessage());
 
-        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
-    }*/
 }
-/*
-@RestController
-public class ProductController {
-    @GetMapping("/products")
-    public String getAllProducts(){
-        return "Getting All Products";
-    }
-    @GetMapping("/products/{productId}")
-    public String getSingleProduct(@PathVariable Long productId){
-        return "Returning Single Product with id: "+productId;
-    }
-    @PostMapping("/products")
-    public String addNewProduct(@RequestBody ProductDto productDto){
-        return "Adding New Product " + productDto;
-    }
-    @PutMapping("/products/{productId}")
-    public String updateProduct(@PathVariable Long productId){
-        return "Updating Product with id: "+productId;
-    }
-    @DeleteMapping("/products/{productId}")
-    public String deleteProduct(@PathVariable Long productId){
-        return "Deleting Product with id: "+productId;
-    }
-}*/
+
