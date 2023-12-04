@@ -42,35 +42,20 @@ public class ProductController {
 
     // Make only admins to be able to access this endpoint
     @GetMapping()
-    public ResponseEntity<List<ProductDto>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
-                                                           @Nullable @RequestHeader("USER_ID") Long userId){
+    public ResponseEntity<List<ProductDto>> getAllProducts(){
         // check if token and userId are present
-        if(token==null || userId==null ){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+
         // validate the token
-        ValidateTokenResponseDto response = authenticationClient.validate(token, userId);
 
         // check if token is valid
-        if (response.getSessionStatus().equals(SessionStatus.INVALID)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+
 
         // validate token
         // RestTemplate rt = new RestTemplate();
         //  rt.get("localhost:9090/auth/validate?)
 
         // check if user has permissions
-        boolean isUserAdmin = false;
-        for (Role role: response.getUserDto().getRoles()) {
-            if (role.getName().equals("ADMIN")) {
-                isUserAdmin = true;
-            }
-        }
 
-        if (!isUserAdmin) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         List<ProductDto> productDtos = new ArrayList<>();
         List<Product> products = productService.getAllProducts();
         for(Product product: products){
@@ -90,7 +75,7 @@ public class ProductController {
 
 
         MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
-        headers.add("auth-token", "no-access-for-you");
+        headers.add("auth-token", "noaccessforyou");
 
         Optional<Product> productOptional = productService.getSingleProduct(productId);
 

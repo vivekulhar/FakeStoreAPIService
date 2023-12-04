@@ -15,7 +15,7 @@ public class ProductDto {
     private String description;
     private String imageUrl;
     private String category;
-    private RatingDto rating;
+
 
     public static Product from(ProductDto productDto){
         Product product = new Product();
