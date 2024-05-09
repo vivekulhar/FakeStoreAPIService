@@ -10,20 +10,21 @@ import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FakeStoreProductServiceImpl implements ProductService{
 
     private RestTemplateBuilder restTemplateBuilder;
     private FakeStoreClient fakeStoreClient;
+
+    private Map<Long, Object> fakeStoreProducts = new HashMap<>();
     public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient){
         this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreClient = fakeStoreClient;
@@ -101,11 +102,16 @@ public class FakeStoreProductServiceImpl implements ProductService{
     }*/
     @Override
     public Optional<Product> getSingleProduct(Long productId) {
+        if(fakeStoreProducts.containsKey(productId)){
+            return Optional.of(ProductConverter.convertFakeStoreProductDtoToProduct(( FakeStoreProductDto)fakeStoreProducts.get(productId)));
+        }
         Optional<FakeStoreProductDto> fakeStoreProductDto= fakeStoreClient.getSingleProduct(productId);
 
+        fakeStoreProducts.put(productId,fakeStoreProductDto.get());
         if (fakeStoreProductDto.isEmpty()) {
             return Optional.empty();
         }
+
         return Optional.of(ProductConverter.convertFakeStoreProductDtoToProduct(fakeStoreProductDto.get()));
     }
 
