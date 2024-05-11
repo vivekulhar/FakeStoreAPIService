@@ -6,6 +6,7 @@ import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -153,6 +154,11 @@ public class FakeStoreProductServiceImpl implements ProductService{
 
     @Override
     public Product save(Product product) {
+        return null;
+    }
+
+    @Override
+    public Page<Product> getProducts(int numberOfResults, int offset) {
         return null;
     }
 }

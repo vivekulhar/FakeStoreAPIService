@@ -3,7 +3,7 @@ package dev.vivek.productservicetutorial.services;
 import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Product;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +17,6 @@ public interface ProductService {
     Integer deleteProduct(Long productId);
 
     Product save(Product product);
+
+    Page<Product> getProducts(int numberOfResults, int offset);
 }

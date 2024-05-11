@@ -5,10 +5,11 @@ import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -74,5 +75,11 @@ public class SelfProductService implements ProductService{
     @Override
     public Product save(Product product){
         return productRepository.save(product);
+    }
+
+    public Page<Product> getProducts(int numberOfResults, int offset){
+
+        Page<Product> products = productRepository.findAll(PageRequest.of(offset/numberOfResults, numberOfResults));
+        return products;
     }
 }

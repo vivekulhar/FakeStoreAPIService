@@ -15,6 +15,7 @@ import dev.vivek.productservicetutorial.services.SelfProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -38,6 +39,15 @@ public class ProductController {
         this.productService = productService;
         this.productRepository = productRepository;
         this.authenticationClient = authenticationClient;
+    }
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<Product>> getProducts(@RequestBody GetProductsRequestDto getProductsRequestDto){
+
+
+        Page<Product> products = productService.getProducts(getProductsRequestDto.getNumberOfResults(), getProductsRequestDto.getOffset());
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+//        return null;
     }
 
     // Make only admins to be able to access this endpoint
