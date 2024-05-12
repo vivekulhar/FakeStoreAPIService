@@ -7,6 +7,7 @@ import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,7 +80,14 @@ public class SelfProductService implements ProductService{
 
     public Page<Product> getProducts(int numberOfResults, int offset){
 
-        Page<Product> products = productRepository.findAll(PageRequest.of(offset/numberOfResults, numberOfResults));
+//        Page<Product> products = productRepository.findAll(PageRequest
+//                .of(offset/numberOfResults, numberOfResults, Sort
+//                        .by("title","price").descending()));
+        Page<Product> products = productRepository.findAll(PageRequest
+                .of(offset/numberOfResults, numberOfResults, Sort
+                        .by("price").descending().and(
+                                Sort.by("title").ascending() 
+                        )));
         return products;
     }
 }
