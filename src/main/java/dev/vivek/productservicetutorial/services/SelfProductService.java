@@ -4,7 +4,7 @@ import dev.vivek.productservicetutorial.dtos.ProductDto;
 import dev.vivek.productservicetutorial.exceptions.NotFoundException;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
-import dev.vivek.productservicetutorial.repositories.ProductRepository;
+import dev.vivek.productservicetutorial.repositories.product.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -86,7 +86,7 @@ public class SelfProductService implements ProductService{
         Page<Product> products = productRepository.findAll(PageRequest
                 .of(offset/numberOfResults, numberOfResults, Sort
                         .by("price").descending().and(
-                                Sort.by("title").ascending() 
+                                Sort.by("title").ascending()
                         )));
         return products;
     }

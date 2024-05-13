@@ -1,28 +1,19 @@
 package dev.vivek.productservicetutorial.controllers;
 
 import dev.vivek.productservicetutorial.clients.authenticationclient.AuthenticationClient;
-import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.Role;
-import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.SessionStatus;
-import dev.vivek.productservicetutorial.clients.authenticationclient.dtos.ValidateTokenResponseDto;
 import dev.vivek.productservicetutorial.dtos.*;
 import dev.vivek.productservicetutorial.exceptions.NotFoundException;
-import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
-import dev.vivek.productservicetutorial.repositories.ProductRepository;
+import dev.vivek.productservicetutorial.repositories.product.ProductRepository;
 import dev.vivek.productservicetutorial.services.ProductConverter;
 import dev.vivek.productservicetutorial.services.ProductService;
-import dev.vivek.productservicetutorial.services.SelfProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 

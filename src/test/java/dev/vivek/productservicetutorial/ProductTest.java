@@ -3,7 +3,7 @@ package dev.vivek.productservicetutorial;
 import dev.vivek.productservicetutorial.models.Category;
 import dev.vivek.productservicetutorial.models.Product;
 import dev.vivek.productservicetutorial.repositories.CategoryRepository;
-import dev.vivek.productservicetutorial.repositories.ProductRepository;
+import dev.vivek.productservicetutorial.repositories.product.ProductRepository;
 import dev.vivek.productservicetutorial.services.SelfProductService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

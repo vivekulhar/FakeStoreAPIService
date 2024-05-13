@@ -1,4 +1,4 @@
-package dev.vivek.productservicetutorial.repositories;
+package dev.vivek.productservicetutorial.repositories.product;
 
 import dev.vivek.productservicetutorial.models.Product;
 import org.springframework.data.domain.Page;
