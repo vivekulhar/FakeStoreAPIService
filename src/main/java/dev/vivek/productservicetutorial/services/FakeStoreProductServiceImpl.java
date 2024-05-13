@@ -26,11 +26,13 @@ public class FakeStoreProductServiceImpl implements ProductService{
     private RestTemplateBuilder restTemplateBuilder;
     private FakeStoreClient fakeStoreClient;
     private RedisTemplate<Long, Object> redisTemplate;
+    private RestTemplate restTemplate
     private Map<Long, Object> fakeStoreProducts = new HashMap<>();
-    public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient, RedisTemplate<Long, Object> redisTemplate){
+    public FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder, FakeStoreClient fakeStoreClient, RedisTemplate<Long, Object> redisTemplate, RestTemplate restTemplate){
         this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreClient = fakeStoreClient;
         this.redisTemplate = redisTemplate;
+        this.restTemplate = restTemplate;
     }
 
 

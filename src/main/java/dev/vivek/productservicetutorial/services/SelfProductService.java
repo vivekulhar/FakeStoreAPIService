@@ -10,16 +10,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 @Service
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
-
-    public SelfProductService(ProductRepository productRepository) {
+    private RestTemplate restTemplate;
+    public SelfProductService(ProductRepository productRepository, RestTemplate restTemplate) {
 
         this.productRepository = productRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
